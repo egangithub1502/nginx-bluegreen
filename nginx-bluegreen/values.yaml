@@ -1,0 +1,12 @@
+app:
+  name: nginx
+  image: "us-central1-docker.pkg.dev/stm-01/my-app-repo/html-nginx-app"
+  versionBlue: v1
+  versionGreen: v2
+  replicas: 2
+  tlsSecret: profit-tls
+  staticIpName: nginx-ingress-staticip
+  ingressHost: nginx-app.profit.net
+  sslPolicy: nginx-ssl-security
+  activeVersion: v1 # ✅ Change this to v2 to switch traffic
+
