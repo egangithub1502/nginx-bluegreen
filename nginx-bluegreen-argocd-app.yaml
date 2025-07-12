@@ -2,16 +2,16 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: nginx-bluegreen
-  namespace: argocd  # ✅ This must be argocd!
+  namespace: argocd     # MUST be 'argocd'
 spec:
   project: default
   source:
     repoURL: https://github.com/egangithub1502/nginx-bluegreen
     targetRevision: main
-    path: helm/nginx-bluegreen
+    path: nginx-bluegreen   # <- points to your Helm chart directory
     helm:
       values: |
-        activeColor: green
+        activeColor: green   # Switch to blue later for promotion
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx
