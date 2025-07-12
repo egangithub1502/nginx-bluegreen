@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.app.name }}-ingress
+  namespace: {{ .Release.Namespace }}
+  annotations:
+    kubernetes.io/ingress.class: "gce"
+    cloud.google.com/neg: '{"ingress": true}'
+    networking.gke.io/v1beta1.FrontendConfig: "{{ .Values.app.name }}-frontend-config"
+    kubernetes.io/ingress.global-static-ip-name: "{{ .Values.app.staticIpName }}"
+spec:
+  ingressClassName: gce
+  tls:
+    - hosts:
+        - {{ .Values.app.ingressHost }}
+      secretName: {{ .Values.app.tlsSecret }}
+  rules:
+    - host: {{ .Values.app.ingressHost }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ .Values.app.name }}-service
+                port:
+                  number: 80
+
