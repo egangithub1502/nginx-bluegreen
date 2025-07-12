@@ -1,0 +1,33 @@
+namespace: nginx
+activeColor: green
+image:
+  repository: us-central1-docker.pkg.dev/stm-01/my-app-repo/html-nginx-app
+  tag: latest
+
+frontendConfig:
+  name: nginx-frontend-config
+  sslPolicy: nginx-ssl-security
+  redirectToHttps: true
+  responseCodeName: "301"
+
+ingress:
+  name: nginx-ingress
+  host: nginx-app.profit.net
+  tlsSecretName: profit-tls
+  staticIpName: nginx-ingress-staticip
+  serviceName: nginx-service
+  servicePort: 80
+
+services:
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+    cloud.google.com/load-balancer-type: "Internal"
+  type: LoadBalancer
+  port: 80
+  targetPort: 80
+
+statefulsets:
+  replicas: 2
+  storage: 1Gi
+  storageClassName: standard
+

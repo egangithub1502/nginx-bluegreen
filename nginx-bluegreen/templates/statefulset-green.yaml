@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nginx-app-green
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: nginx
+    color: green
+spec:
+  serviceName: nginx-app-headless
+  replicas: {{ .Values.statefulsets.replicas }}
+  selector:
+    matchLabels:
+      app: nginx
+      color: green
+  template:
+    metadata:
+      labels:
+        app: nginx
+        color: green
+    spec:
+      containers:
+        - name: nginx
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+  volumeClaimTemplates:
+    - metadata:
+        name: nginx-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: {{ .Values.statefulsets.storageClassName }}
+        resources:
+          requests:
+            storage: {{ .Values.statefulsets.storage }}
+
