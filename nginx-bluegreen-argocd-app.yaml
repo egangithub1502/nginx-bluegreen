@@ -11,7 +11,7 @@ spec:
     path: nginx-bluegreen   # <- points to your Helm chart directory
     helm:
       values: |
-        activeColor: blue   # Switch to blue later for promotion
+        activeColor: green   # Switch to blue later for promotion
   destination:
     server: https://kubernetes.default.svc
     namespace: nginx
