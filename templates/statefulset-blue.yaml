@@ -21,7 +21,7 @@ spec:
     spec:
       containers:
         - name: nginx
-          image: {{ .Values.app.image }}:{{ .Values.app.versionBlue }}
+          image: {{ .Values.app.image }}:latest
           ports:
             - containerPort: 80
           readinessProbe:

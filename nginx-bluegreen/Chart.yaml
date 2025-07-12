@@ -1,5 +1,0 @@
-apiVersion: v2
-name: nginx-bluegreen
-version: 0.1.0
-description: A Helm chart for blue-green deployment
-
